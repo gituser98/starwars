@@ -1,5 +1,11 @@
 package starwars.api;
 
+/**
+ * Class to define a Planet.
+ * 
+ * @author taner.alkaya
+ *
+ */
 public class Planet {
 	
 	private String name;

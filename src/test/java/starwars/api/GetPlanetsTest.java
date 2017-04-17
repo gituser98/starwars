@@ -48,6 +48,18 @@ public class GetPlanetsTest extends BaseTest {
 
 		Assert.assertEquals(userArray.size(), PLANETS_SHOWN_EACH_PAGE);
 	}
+	
+	@Test
+	public void testPageHasPlanet() throws JsonParseException, JsonMappingException, IOException {
+
+		int pageNumber = 3;
+		
+		HttpResponse httpResponse = utils.getHttpResponse(BASE_URI + "?page=" + pageNumber, "json");
+		JsonNode userArray = utils.getJsonNode(utils.getJsonContent(httpResponse)).get("results");
+
+		Planet planet = mapper.readValue(userArray.get(8).toString(), Planet.class);
+		utils.comparePlanets(planet, testData.getPlanet("Socorro"));
+	}
 
 	@Test(dataProvider = "invalidPageNumberProvider")
 	public void testInvalidPageNumbers(int pageNumber) {
@@ -108,19 +120,6 @@ public class GetPlanetsTest extends BaseTest {
 
 		JsonNode userArray = node.get("results");
 		Assert.assertEquals(userArray.size(), 1);
-	}
-	
-	@Test
-	public void testPageHasPlanet() throws JsonParseException, JsonMappingException, IOException {
-
-		int pageNumber = 3;
-		
-		HttpResponse httpResponse = utils.getHttpResponse(BASE_URI + "?page=" + pageNumber, "json");
-		JsonNode userArray = utils.getJsonNode(utils.getJsonContent(httpResponse)).get("results");
-
-		Planet planet = mapper.readValue(userArray.get(8).toString(), Planet.class);
-		utils.comparePlanets(planet, testData.getPlanet("Socorro"));
-	
 	}
 
 	@DataProvider(name = "invalidPageNumberProvider", parallel = false)

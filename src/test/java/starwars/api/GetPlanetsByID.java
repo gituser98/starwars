@@ -15,16 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  */
 public class GetPlanetsByID extends BaseTest {
-
-	@Test(dataProvider = "invalidPlanetIdProvider")
-	public void testInvalidID(int pageNumber) {
-
-		HttpResponse httpResponse = utils.getHttpResponse(BASE_URI + pageNumber, "json");
-
-		Assert.assertEquals(httpResponse.getStatusLine().getStatusCode(), STATUS_CODE_NOT_FOUND);
-		Assert.assertEquals(utils.getJsonNode(utils.getJsonContent(httpResponse)).get("detail").asText(), "Not found");
-	}
-
+	
 	@Test(dataProvider = "planetIdProvider")
 	public void testGetPlanetByID(int pageNumber, String planetName) throws JsonProcessingException {
 
@@ -33,6 +24,15 @@ public class GetPlanetsByID extends BaseTest {
 
 		Assert.assertEquals(httpResponse.getStatusLine().getStatusCode(), STATUS_CODE_OK);
 		utils.comparePlanets(mapper.treeToValue(node, Planet.class), testData.getPlanet(planetName));
+	}
+
+	@Test(dataProvider = "invalidPlanetIdProvider")
+	public void testInvalidPlanetID(int pageNumber) {
+
+		HttpResponse httpResponse = utils.getHttpResponse(BASE_URI + pageNumber, "json");
+
+		Assert.assertEquals(httpResponse.getStatusLine().getStatusCode(), STATUS_CODE_NOT_FOUND);
+		Assert.assertEquals(utils.getJsonNode(utils.getJsonContent(httpResponse)).get("detail").asText(), "Not found");
 	}
 
 	@DataProvider(name = "planetIdProvider", parallel = false)

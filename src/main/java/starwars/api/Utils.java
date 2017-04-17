@@ -13,7 +13,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class PlanetUtils {
+/**
+ * Utility class to provide commonly used methods.
+ * 
+ * @author taner.alkaya
+ *
+ */
+public class Utils {
 
 	private HttpGet httpGet;
 	private CloseableHttpClient httpClient;
